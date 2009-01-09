@@ -1031,33 +1031,30 @@ sub get {
 
                 my $default = '';
                 my $w_is_are = 'is';
+                $w_value_values = 'value';
                 if (defined $parm->{default} and $parm->{default} ne '') {
                     $enter = 'enter a value';
 
-                    if (defined $delimiter) {
-                        if (ref $parm->{default} eq 'ARRAY') {
-                            my @defaults;
-                            if (defined $parm->{type} and $parm->{type} eq 'date') {
-                                push @defaults, UnixDate("epoch $_",$parm->{date_format_display}) for @{ $parm->{default} };
-                            } else {
-                                push @defaults, @{ $parm->{default} };
-                            }
-                            if ($#{ $parm->{default} }) {
-                                $w_value_values = 'values';
-                                $w_is_are = 'are';
-                                $w_default = join "$delimiter " => @defaults;
-                            } else {
-                                $w_default = $parm->{default}->[0];
-                            }
+                    if (defined $delimiter && (ref $parm->{default} eq 'ARRAY')) {
+                        my @defaults;
+                        if (defined $parm->{type} and $parm->{type} eq 'date') {
+                            push @defaults, UnixDate("epoch $_",$parm->{date_format_display}) for @{ $parm->{default} };
                         } else {
-                            if (defined $parm->{type} and $parm->{type} eq 'date') {
-                                $w_default = UnixDate('epoch ' . $parm->{default}, '%s' );
-                            } else {
-                                $w_default = $parm->{default};
-                            }
+                            push @defaults, @{ $parm->{default} };
+                        }
+                        if ($#{ $parm->{default} }) {
+                            $w_value_values = 'values';
+                            $w_is_are = 'are';
+                            $w_default = join "$delimiter " => @defaults;
+                        } else {
+                            $w_default = $parm->{default}->[0];
                         }
                     } else {
-                        $w_value_values = 'value';
+                        if (defined $parm->{type} and $parm->{type} eq 'date') {
+                            $w_default = UnixDate('epoch ' . $parm->{default}, $parm->{date_format_display} );
+                        } else {
+                            $w_default = $parm->{default};
+                        }
                     }
 
                     $default =  "The default $w_value_values $w_is_are $w_default.  Press ENTER to accept the default, or ";

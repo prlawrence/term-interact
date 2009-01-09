@@ -34,6 +34,7 @@ sub READLINE {
 package main;
 use strict;
 use Test;
+use Date::Manip;
 
 BEGIN {
     my $plan_tests;
@@ -54,9 +55,9 @@ ok(1); # ok so far...
 # set up object
 my $ti = Term::Interact->new(
     date_format_display  =>  '%d-%b-%Y',
-    date_format_return  =>  '%d-%b-%Y',
-    FH_IN               =>  \*STDIN,
-    FH_OUT              =>  \*STDOUT,
+    date_format_return   =>  '%d-%b-%Y',
+    FH_IN                =>  \*STDIN,
+    FH_OUT               =>  \*STDOUT,
 );
 ok( ref $ti ? 1 : 0 );
 
@@ -315,4 +316,27 @@ if ( scalar @stdout == 10 ) {
     ok(0);
 }
 ok(  $yes eq 'yes'  ? 1 : 0  );
+
+tie *STDOUT => "TestINOUT" or die "Couldn't tie STDOUT!";
+@tries = ( '' );
+print STDIN "$_" for @tries;
+my $date = $ti->get (
+    name          => 'Order date',
+    default       => 'today',
+    type          => 'date',
+);
+undef @stdout;
+push @stdout, $_ while (<STDOUT>);
+untie *STDOUT or die "Couldn't untie STDOUT!";
+my $expected_default_date = UnixDate('today', '%d-%b-%Y');
+my $expected_first_stdout = "Orderdate:Thedefaultvalueis"
+                          . $expected_default_date
+                          . ".PressENTERtoacceptthedefault,orenteravalue.";
+if ( scalar @stdout == 2 ) {
+    ok(  $stdout[0] eq $expected_first_stdout ? 1 : 0  );
+    ok(  $stdout[1] eq '>'                    ? 1 : 0  );
+} else {
+    ok(0);
+}
+ok(  $date eq $expected_default_date  ? 1 : 0  );
 
