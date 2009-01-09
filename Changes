@@ -42,3 +42,14 @@ Revision history for Perl extension Term::Interact.
           validated input to FH_OUT before it returns.
         - added 'check_default' parameter to force validation
           of default value if it is chosen.
+
+0.50 Thu Jan 08 2009
+        - Updated test script because existing tests would no
+          longer pass when doing a fresh install.  I suppose
+          this was because other modules and Perl itself have
+          changed a bit in the past six years!  :-)
+        - Fixed a bug: the default message was being incorrectly
+          constructed if a name was specified but no message was
+          specified.  Added a test to cover for it.  Thanks go
+          out to Dr. Henrik Seidel!
+

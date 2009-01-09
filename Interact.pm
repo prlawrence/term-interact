@@ -474,7 +474,7 @@ use File::Spec;
 
 use vars qw( $VERSION $AUTOLOAD );
 
-$VERSION = '0.44';
+$VERSION = '0.50';
 
 sub parameters {
     shift;

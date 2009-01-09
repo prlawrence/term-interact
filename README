@@ -1,4 +1,4 @@
-Term/Interact version 0.44
+Term/Interact version 0.50
 ==========================
 
 NAME
@@ -16,7 +16,7 @@ SYNOPSIS
     die "Invalid!" unless $ti->validate( $data, @args );
 
 DESCRIPTION
-    Term::Interact enables you to interactively get validated 
+    Term::Interact enables you to interactively get validated
     data from a user.  This is accomplished via a *simple*
     API, wherein you specify various parameters for prompting
     the user, as well as "checks" with which gotten data will
@@ -110,7 +110,7 @@ DEPENDENCIES
       File::Spec
 
 COPYRIGHT AND LICENCE
-    Copyright (C) 2002 Phil R Lawrence.  All rights reserved.
+    Copyright (C) 2002-2009 Phil R Lawrence.  All rights reserved.
 
     This module is free software; you can redistribute it
     and/or modify it under the same terms as Perl itself.
